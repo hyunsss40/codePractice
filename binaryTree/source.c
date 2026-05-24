@@ -6,7 +6,7 @@ typedef struct TreeNode {
 	struct TreeNode* left, * right;
 }TreeNode;
 
-int max = 0, minor = 99999;
+int max = 0, minor = 9999;
 void Finding(TreeNode* root) {
 	if (root == NULL)return;
 	if (root->data < minor)
