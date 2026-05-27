@@ -57,14 +57,16 @@ void initBuffer();//버퍼 초기화
 void printBuffer(int x, int y, const char* string, WORD color, int width);
 void flip();//버퍼 교체
 void drawCharacter(object obj, int x, int y, int height);
-void drawBackground(WORD color,int start, int height);
+void drawBackground(WORD color,int x,int y, int height);
 void drawSubway();
 void drawMap();
 void drawChair(int x, int y, WORD color, int height);
 void ObjMove(object* Obj);
 void drawCloud(int x, int y, int index);
 void drawMountain(int x, int y);
+void drawBuilding(int x, int y);
 void drawDoor(int x, int y);
+void titleBackground();
 
 int main() {
 	initBuffer();
@@ -79,15 +81,7 @@ int main() {
 			if (GetAsyncKeyState(VK_RETURN)) MAP.index = MAP.y + 1;
 			if (MAP.y < 0) MAP.y = 0;
 			if (MAP.y > 2) MAP.y = 2;
-			drawBackground(BLUE,0,  HEIGHT);
-
-			drawBackground(DARK_GREEN, 15, HEIGHT);
-			drawMountain(0, 10);
-			drawBackground(DARK_GREY, 20, HEIGHT);
-
-			drawCloud(10, 3, 1);
-			drawCloud(75, 3, 0);
-			drawCloud(55, 2, 2);
+			titleBackground();
 
 			drawSubway();
 			for (int i = 0; i < 5; i++) {
@@ -98,7 +92,7 @@ int main() {
 		}
 
 		else if (MAP.index == 1) {
-			drawBackground(GREY, 0, HEIGHT);
+			drawBackground(GREY, 0, 0, HEIGHT);
 			drawMap();
 			drawDoor(52, 18);
 			drawChair(15, 21, MAGENTA, 6);
@@ -155,16 +149,16 @@ void drawCharacter(object obj, int x, int y, int height) {
 	}
 }
 void drawSubway() {
-	printBuffer(4, 21, subway[0], GREY | B_BLUE, 110);
-	printBuffer(4, 22, subway[1], GREY | B_BLUE, 110);
+	printBuffer(4, 21, subway[0], GREY | B_DARK_GREY, 110);
+	printBuffer(4, 22, subway[1], GREY | B_DARK_GREY, 110);
 	for (int i = 0; i < 7; i++) {
 		printBuffer(4, 23 + i, subway[2 + i], GREY, 110);
 	}
-	printBuffer(4, 23, "▗", GREY | B_BLUE, 1);
+	printBuffer(4, 23, "▗", GREY | B_DARK_GREY, 1);
 }
-void drawBackground(WORD color, int start, int height) {
-	for (start; start < height; start++) {
-		printBuffer(0, start, Background, color, WIDTH);
+void drawBackground(WORD color, int x, int y, int height) {
+	for (y; y < height; y++) {
+		printBuffer(x%WIDTH, y, Background, color, WIDTH);
 
 	}
 }
@@ -216,9 +210,17 @@ void drawCloud(int x, int y, int index) {
 	}
 }
 void drawMountain(int x, int y) {
-		printBuffer(x, y, SpriteMountain[0], DARK_GREEN|B_BLUE, 3);
-		printBuffer(x, y+1, SpriteMountain[1], DARK_GREEN | B_BLUE, 6);
-		printBuffer(x, y+2, SpriteMountain[2], DARK_GREEN | B_BLUE, 13);
+		printBuffer(x+17, y, SpriteMountain[0], DARK_GREEN|B_BLUE, 2);
+		printBuffer(x+15, y+1, SpriteMountain[1], DARK_GREEN | B_BLUE, 6);
+		printBuffer(x+13, y+2, SpriteMountain[2], DARK_GREEN | B_BLUE, 10);
+		printBuffer(x + 10, y + 3, SpriteMountain[3], DARK_GREEN | B_BLUE, 16);
+		printBuffer(x + 7, y + 4, SpriteMountain[4], DARK_GREEN | B_BLUE, 22);
+		printBuffer(x + 3, y + 5, SpriteMountain[5], DARK_GREEN | B_BLUE, 30);
+		printBuffer(x, y + 6, SpriteMountain[6], DARK_GREEN | B_BLUE, 36);
+}
+void drawBuilding(int x, int y) {
+	printBuffer(x, y, SpriteBuilding[0], DARK_GREY, 10);
+	for(int i=1; i<6; i++) printBuffer(x, y+i, SpriteBuilding[1], DARK_GREY|B_BLUE, 10);
 }
 void drawDoor(int x, int y) {
 	printBuffer(x, y, SpriteDoor[0][0], DARK_GREY | B_DARK_GREY, 8);
@@ -232,3 +234,20 @@ void drawDoor(int x, int y) {
 		printBuffer(x + 8, y + i, SpriteDoor[1][i], GREY | B_DARK_GREY, 8);
 	}
 }
+void titleBackground() {
+	drawBackground(BLUE, 0, 0, HEIGHT);
+	drawMountain(0, 8);
+	drawMountain(24, 9);
+	drawMountain(80, 8);
+	drawBackground(DARK_GREEN,0, 15, HEIGHT);
+	drawBuilding(20, 14);
+	drawBuilding(27, 15);
+	drawBuilding(40, 14);
+	drawBuilding(55, 17);
+	drawBuilding(67, 14);
+	drawBuilding(90, 15);
+	drawBackground(DARK_GREY,0, 20, HEIGHT);
+	drawCloud(10, 3, 1);
+	drawCloud(75, 3, 0);
+	drawCloud(55, 2, 2);
+	}
