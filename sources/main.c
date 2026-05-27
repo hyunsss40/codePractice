@@ -88,6 +88,7 @@ int main() {
 			printBuffer(103, 6 + MAP.y, "▶", B_WHITE, 1);
 			Sleep(60);
 		}
+
 		else if (MAP.index == 1) {
 			drawBackground(GREY);
 			drawMap();
